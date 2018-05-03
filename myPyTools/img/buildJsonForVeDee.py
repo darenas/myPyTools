@@ -10,12 +10,6 @@ from lxml import html
 import requests
 import json
 
-## For debuggin only
-#originPath = "C:\\Users\\darenas\\home\\tmp\\data Test"
-#originPath = "http://intranet.railenium.eu/siara/pantho_v1"
-#originPath = "http://intranet.railenium.eu/siara/SIARA-SURVEIL/batch-2/"
-#destFile = "C:\\Users\\darenas\\Downloads\\testJsont2_v3.json"
-
 # Parsing params
 if len(sys.argv) != 3:
     print("Two arguments are required: origin path (local or remote http) and destination file path (local)")
