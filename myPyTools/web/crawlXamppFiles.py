@@ -7,7 +7,7 @@ Created on 3 May 2018
 from lxml import html
 import requests
 
-theSite = 'http://intranet.railenium.eu/siara/dataTest/'
+theSite = "put here http site" #TODO: next version should use params
 imgExts = ('.png', '.jpg', '.jpeg')
 
 def exploreUrl(theUrl):
