@@ -10,8 +10,8 @@ import shutil, sys
 from PIL import Image
 
 ## TODO: read these parameters from the command line 
-sourceDir = 'C:\\Users\\darenas\\home\\tmp\\SIARA-DATA\\Panto_new2'
-destDir = 'C:\\Users\\darenas\\home\\tmp\\SIARA-DATA\\PantoDet_stdFormat'
+sourceDir = 'x'
+destDir = 'x'
 imgSetName = 'Main'
 traSetPerc = 85
 tstSetPecc = 0
