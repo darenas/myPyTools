@@ -7,7 +7,7 @@ from random import randint
 from os import listdir, path, makedirs
 from os.path import join, isdir, isfile, splitext
 import shutil, sys
-
+from PIL import Image
 
 ## TODO: read these parameters from the command line 
 sourceDir = 'C:\\Users\\darenas\\home\\tmp\\SIARA-DATA\\Panto_new2'
@@ -18,6 +18,7 @@ tstSetPecc = 0
 copyFiles = True
 cleanDest = True
 onlyAnnotated = True
+transformPNGtoJPG = True
 
 
 ## Defining some functions
@@ -82,7 +83,12 @@ for elmnt in listdir(sourceDir):
                         theListOfFiles[setChoice][elmnt].append(filename)                          
                         imgCount += 1   
                         if copyFiles: 
-                            shutil.copyfile(fileFullPath, join(destImgDir, file) ) 
+                            if transformPNGtoJPG and file_extension == '.png':
+                                im = Image.open(fileFullPath)
+                                rgb_im = im.convert('RGB')
+                                rgb_im.save(join(destImgDir, filename + '.jpg'))
+                            else:
+                                shutil.copyfile(fileFullPath, join(destImgDir, file) ) 
                             copCount += 1
                           
                     if hasLabel:
