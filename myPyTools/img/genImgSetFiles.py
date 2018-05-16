@@ -7,7 +7,7 @@ from random import randint
 from os import listdir, path, makedirs
 from os.path import join, isdir, isfile, splitext
 import shutil, sys
-
+from PIL import Image
 
 ## TODO: read these parameters from the command line 
 sourceDir = 'C:\\Users\\darenas\\home\\tmp\\SIARA-DATA\\Panto_new2'
@@ -15,8 +15,10 @@ destDir = 'C:\\Users\\darenas\\home\\tmp\\SIARA-DATA\\PantoDet_stdFormat'
 imgSetName = 'Main'
 traSetPerc = 85
 tstSetPecc = 0
-copyFiles = False
-cleanDest = False
+copyFiles = True
+cleanDest = True
+onlyAnnotated = True
+transformPNGtoJPG = True
 
 
 ## Defining some functions
@@ -73,19 +75,27 @@ for elmnt in listdir(sourceDir):
                 filename, file_extension = splitext(file)
                 totCount += 1
                 if file_extension in imgExts:
-                    setChoice = chooseSet(traSetPerc, tstSetPecc)
-                    theListOfFiles[setChoice][elmnt].append(filename)                    
-                    destFilePath = join(destImgDir, file)       
-                    imgCount += 1            
-                elif file_extension == '.xml':
-                    destFilePath = join(destLabDir, file)
-                    labCount += 1 
-                else:
-                    destFilePath = ""
-                        
-                if copyFiles and destFilePath != "" and not path.exists(destFilePath):
-                    shutil.copyfile(fileFullPath, destFilePath)
-                    copCount += 1
+                    correspLabFile = join(elmntPath, filename + '.xml')
+                    hasLabel = isfile(correspLabFile)
+                                
+                    if (onlyAnnotated and hasLabel) or not onlyAnnotated:
+                        setChoice = chooseSet(traSetPerc, tstSetPecc)
+                        theListOfFiles[setChoice][elmnt].append(filename)                          
+                        imgCount += 1   
+                        if copyFiles: 
+                            if transformPNGtoJPG and file_extension == '.png':
+                                im = Image.open(fileFullPath)
+                                rgb_im = im.convert('RGB')
+                                rgb_im.save(join(destImgDir, filename + '.jpg'))
+                            else:
+                                shutil.copyfile(fileFullPath, join(destImgDir, file) ) 
+                            copCount += 1
+                          
+                    if hasLabel:
+                        labCount += 1
+                        if copyFiles: 
+                            shutil.copyfile( correspLabFile, join(destLabDir, filename + '.xml') )
+                            copCount += 1
                 
                 sys.stdout.write("Processed Files : %d (%d images and %d labels). Currently processing \"%s\" folder...        \r" % (totCount, imgCount, labCount, elmnt) )
                 sys.stdout.flush()
