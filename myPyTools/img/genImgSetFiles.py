@@ -10,8 +10,8 @@ import shutil, sys
 from PIL import Image
 
 ## TODO: read these parameters from the command line 
-sourceDir = 'x'
-destDir = 'x'
+sourceDir = '/home/administrateur/SIARA_DATA/panto3_classed_noErrors_all'
+destDir = '/home/administrateur/Datasets/panto3_stdFormat'
 imgSetName = 'Main'
 traSetPerc = 85
 tstSetPecc = 0
@@ -45,7 +45,7 @@ imgExts = ('.png', '.jpg', '.jpeg')
 fileSuffix = ['train', 'trainval', 'val']
 
 destImgSetDir = join(destDir, 'ImageSets', imgSetName)
-destImgDir = join(destDir, 'Images')
+destImgDir = join(destDir, 'JPEGImages')
 destLabDir = join(destDir, 'Annotations')
 
 theListOfFiles = [{} for _ in range(3)]
