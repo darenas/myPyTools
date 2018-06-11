@@ -9,7 +9,6 @@ from os.path import join, isdir, isfile, splitext
 import shutil, sys
 from PIL import Image
 
-
 sourceDir = 'C:\\Users\\darenas\\home\\tmp\\SIARA-DATA\\Panto_new2_fixExp'
 destDir = 'C:\\Users\\darenas\\home\\tmp\\SIARA-DATA\\PantoDet_stdFormat_fixExpInc'
 
@@ -27,7 +26,6 @@ copyFiles = True                # If true, images and annotation files from the 
 cleanDest = True                # If true, all contents will be deleted from the the destination folder before the execution of this script
 onlyAnnotated = True           # If true, only the images with an .xml annotation file (same name) will be taken into account
 transformPNGtoJPG = True        # If true, converts the PNG format of any source image to JPG in the destination folder
-
 
 ## Defining some functions
 '''
