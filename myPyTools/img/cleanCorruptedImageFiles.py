@@ -19,7 +19,7 @@ targetFolder = '/home/administrateur/SIARA_DATA/Shooting'
 
 consideredExtensions = ('.png', '.jpg', '.jpeg')
 cleanDestFolder = False
-copyPhotos = False
+copyImages = False
 copyOtherFiles = True
 deleteErrors = False
 resize = True
@@ -36,7 +36,7 @@ toDelete = []
 for path, subdirs, files in os.walk(theFolder):
     for name in files:
         currInnerFilePath = os.path.join(path, name)
-        if copyPhotos or copyOtherFiles:
+        if copyImages or copyOtherFiles:
             innerPath = path.replace(theFolder, '')
             newFilePath = os.path.join(targetFolder, innerPath)
             if not os.path.exists(newFilePath):
@@ -47,7 +47,7 @@ for path, subdirs, files in os.walk(theFolder):
                 img = Image.open(currInnerFilePath)
                 img.verify() 
                 valid+=1
-                if copyOtherFiles:
+                if copyImages:
                     img = Image.open(currInnerFilePath)         # the image must be re-opened because of verify()
                     if resize:
                         if conserveRatio:
@@ -65,7 +65,7 @@ for path, subdirs, files in os.walk(theFolder):
             others += 1 
             if copyOtherFiles:
                 shutil.copyfile(currInnerFilePath, newFilePath)               
-        sys.stdout.write("Files Processed: %d images and %d other files     \r" % (count, other) )
+        sys.stdout.write("Files Processed: %d images and %d other files     \r" % (count, others) )
         sys.stdout.flush()
 
 print('The following list of images are corrupted %s..' % (compDel))             
