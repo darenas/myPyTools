@@ -9,8 +9,16 @@ from os.path import join, isdir, isfile, splitext
 import shutil, sys
 from PIL import Image
 
-sourceDir = 'C:\\Users\\darenas\\home\\tmp\\SIARA-DATA\\Panto_new2_fixExp'
-destDir = 'C:\\Users\\darenas\\home\\tmp\\SIARA-DATA\\PantoDet_stdFormat_fixExpInc'
+## TODO: read these parameters from the command line 
+sourceDir = '/home/administrateur/SIARA_DATA/panto3_classed_noErrors_all'
+destDir = '/home/administrateur/Datasets/panto3_stdFormat'
+imgSetName = 'Main'
+traSetPerc = 85
+tstSetPecc = 0
+copyFiles = True
+cleanDest = True
+onlyAnnotated = True
+transformPNGtoJPG = True
 
 #TODO: Allow to set all the parameters from command line
 #sourceDir = sys.argv[1]            # Use full path
