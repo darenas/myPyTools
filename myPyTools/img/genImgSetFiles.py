@@ -1,5 +1,5 @@
 '''
-Created on 14 May 2018
+Created on 7 May 2018
 
 @author: darenas
 '''
@@ -9,17 +9,23 @@ from os.path import join, isdir, isfile, splitext
 import shutil, sys
 from PIL import Image
 
-## TODO: read these parameters from the command line 
-sourceDir = 'x'
-destDir = 'x'
-imgSetName = 'Main'
-traSetPerc = 85
-tstSetPecc = 0
-copyFiles = True
-cleanDest = True
-onlyAnnotated = True
-transformPNGtoJPG = True
+sourceDir = 'C:\\Users\\darenas\\home\\tmp\\SIARA-DATA\\Panto_new2_fixExp'
+destDir = 'C:\\Users\\darenas\\home\\tmp\\SIARA-DATA\\PantoDet_stdFormat_fixExpInc'
 
+#TODO: Allow to set all the parameters from command line
+#sourceDir = sys.argv[1]            # Use full path
+#destDir = sys.argv[2]            # Use full path
+# Exemple: py genPascalVocStdDataset.py C:\Users\darenas\home\tmp\SIARA-DATA\Panto_new2 C:\Users\darenas\home\pantoDatasetVOCformat
+
+traSetPerc = 90                    # Percentage of images to the training set
+tstSetPecc = 0                    # Percentage of images to the test set
+# The percentage for the Validation wiil be set to : 100 - traSetPerc - tstSetPecc  
+
+imgSetName = 'Main'             # Just the name of the dataset (so multiples dataset may be created for the same images
+copyFiles = True                # If true, images and annotation files from the source will be copied 
+cleanDest = True                # If true, all contents will be deleted from the the destination folder before the execution of this script
+onlyAnnotated = True           # If true, only the images with an .xml annotation file (same name) will be taken into account
+transformPNGtoJPG = True        # If true, converts the PNG format of any source image to JPG in the destination folder
 
 ## Defining some functions
 '''
@@ -45,12 +51,13 @@ imgExts = ('.png', '.jpg', '.jpeg')
 fileSuffix = ['train', 'trainval', 'val']
 
 destImgSetDir = join(destDir, 'ImageSets', imgSetName)
-destImgDir = join(destDir, 'Images')
+destImgDir = join(destDir, 'JPEGImages')
 destLabDir = join(destDir, 'Annotations')
 
 theListOfFiles = [{} for _ in range(3)]
 
-## The script starts here TODO add main function
+
+## The script starts here.. TODO add a nice main function
 if cleanDest and path.exists(destDir): shutil.rmtree(destDir)
 if path.exists(destImgSetDir):
     print('The specified destination path (%s) is not empty, removing all contents..' % destImgSetDir)
@@ -77,7 +84,9 @@ for elmnt in listdir(sourceDir):
                 if file_extension in imgExts:
                     correspLabFile = join(elmntPath, filename + '.xml')
                     hasLabel = isfile(correspLabFile)
-                                
+#                     filename = filename.replace(" ", "_") ## This may be unnecessary
+#                     filename = filename.replace("(", "") ## This may be unnecessary             
+#                     filename = filename.replace(")", "") ## This may be unnecessary
                     if (onlyAnnotated and hasLabel) or not onlyAnnotated:
                         setChoice = chooseSet(traSetPerc, tstSetPecc)
                         theListOfFiles[setChoice][elmnt].append(filename)                          
@@ -88,7 +97,7 @@ for elmnt in listdir(sourceDir):
                                 rgb_im = im.convert('RGB')
                                 rgb_im.save(join(destImgDir, filename + '.jpg'))
                             else:
-                                shutil.copyfile(fileFullPath, join(destImgDir, file) ) 
+                                shutil.copyfile(fileFullPath, join(destImgDir, (filename + '.png')) ) 
                             copCount += 1
                           
                     if hasLabel:
